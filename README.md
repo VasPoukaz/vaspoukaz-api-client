@@ -21,7 +21,7 @@ Potřebujete Node 22.18 nebo novější.
 
 1. Nainstalujte závislosti: `npm install`
 2. Vytvořte soubor s nastavením: `cp .env.example .env`
-3. Do `.env` doplňte token (`VASPOUKAZ_TOKEN`). O testovací token požádejte na firmy@vaspoukaz.cz.
+3. Do `.env` doplňte token (`VASPOUKAZ_TOKEN`). O testovací token požádejte na integrace@vaspoukaz.cz.
 4. Ověřte přístup: `npm run quickstart`
 
 | Příkaz | Co udělá |
