@@ -11,7 +11,7 @@ Ukázkový klient pro rezervační a pokladní systémy, které přijímají dá
 | Cesta | Co obsahuje |
 |---|---|
 | `src/vaspoukaz-client.ts` | Klient bez závislostí: volání API, opakování požadavků, chyby a ověření podpisu webhooku. |
-| `examples/quickstart.ts` | Ověření přístupu: vypíše propojení, produkty prodejce a volitelně vyhledá poukaz. |
+| `examples/` | Příklady jednotlivých postupů, viz tabulka níže. |
 | `examples/booking-demo/` | Ukázkový rezervační systém, který klienta používá. |
 | `test/` | Testy klienta, které běží bez přístupu k API. |
 
@@ -21,13 +21,32 @@ Potřebujete Node 22.18 nebo novější.
 
 1. Nainstalujte závislosti: `npm install`
 2. Vytvořte soubor s nastavením: `cp .env.example .env`
-3. Do `.env` doplňte token (`VASPOUKAZ_TOKEN`). O testovací token požádejte na integrace@vaspoukaz.cz.
+3. Do `.env` doplňte token (`VASPOUKAZ_TOKEN`). O testovací token požádejte na https://vaspoukaz.cz/firmy/api nebo na integrace@vaspoukaz.cz.
 4. Ověřte přístup: `npm run quickstart`
+
+## Příklady
+
+Příklady odpovídají skupinám endpointů v referenci API. Částky se zadávají v haléřích: `40000` je 400 Kč.
+
+| Skupina | Příkaz | Co ukazuje |
+|---|---|---|
+| Connection | `npm run quickstart` | Ověří token, vypíše prodejce a jeho produkty. |
+| Vouchers | `npm run quickstart -- "KÓD"` | Navíc vyhledá poukaz podle kódu. Nic neuplatní. |
+| Holds | `npm run booking -- "KÓD" 40000 capture` | Rezervace s poukazem: vyhledání, blokace a odečtení po návštěvě. |
+| Holds | `npm run booking -- "KÓD" 40000 release` | Rezervace s poukazem, kterou zákazník zrušil: blokace a její uvolnění. |
+| Redemptions | `npm run redemption -- "KÓD" 40000` | Platba poukazem bez rezervace. |
+| Redemptions | `npm run redemption -- "KÓD" 40000 --reverse` | Uplatnění a jeho vrácení po chybě na pokladně. |
+| Events | `npm run events` | Vypíše události prodejce. Slouží i k doplnění zmeškaných webhooků. |
+| Events | `npm run webhooks` | Přijímá webhooky na `http://localhost:4020/webhooks/vaspoukaz` a ověřuje jejich podpis. |
+| Connection | `npm run connect -- KÓD-PROPOJENÍ` | Vymění jednorázový kód prodejce za jeho token. |
+| Codes | `npm run import-codes -- ID-PRODUKTU KÓD1 KÓD2` | Nahraje vlastní kódy k produktu. |
+
+Příklady `booking` a `redemption` poukaz skutečně zablokují nebo uplatní. Spouštějte je s testovacím tokenem.
+
+Další příkazy:
 
 | Příkaz | Co udělá |
 |---|---|
-| `npm run quickstart` | Vypíše, ke kterému prodejci token patří, a jeho produkty. |
-| `npm run quickstart -- "KÓD POUKAZU"` | Navíc vyhledá poukaz podle kódu. Nic neuplatní. |
 | `npm run demo` | Spustí ukázkový rezervační systém na http://localhost:4010. |
 | `npm test` | Spustí testy klienta. |
 | `npm run typecheck` | Zkontroluje typy. |
@@ -39,7 +58,9 @@ Potřebujete Node 22.18 nebo novější.
 | `VASPOUKAZ_TOKEN` | Token propojení s prodejcem (`vp_test_…` nebo `vp_live_…`). |
 | `VASPOUKAZ_WEBHOOK_SECRET` | Secret pro ověření podpisu webhooků (`whsec_…`). Bez něj ukázka webhooky odmítá. |
 | `VASPOUKAZ_BASE_URL` | Adresa API, výchozí `https://vaspoukaz.cz/api/v1`. |
+| `VASPOUKAZ_INTEGRATION_SECRET` | Secret integrace (`vpi_…`), jen pro `npm run connect`. |
 | `PORT` | Port ukázkového rezervačního systému, výchozí `4010`. |
+| `WEBHOOK_PORT` | Port příkladu `npm run webhooks`, výchozí `4020`. |
 
 ## Použití klienta
 

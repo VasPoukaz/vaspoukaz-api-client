@@ -10,6 +10,12 @@
   },
   "scripts": {
     "quickstart": "node --env-file-if-exists=.env examples/quickstart.ts",
+    "booking": "node --env-file-if-exists=.env examples/booking.ts",
+    "redemption": "node --env-file-if-exists=.env examples/redemption.ts",
+    "events": "node --env-file-if-exists=.env examples/events.ts",
+    "webhooks": "node --env-file-if-exists=.env examples/webhook-server.ts",
+    "connect": "node --env-file-if-exists=.env examples/connect-merchant.ts",
+    "import-codes": "node --env-file-if-exists=.env examples/import-codes.ts",
     "demo": "node --env-file-if-exists=.env examples/booking-demo/server.ts",
     "test": "node --test \"test/*.test.ts\"",
     "typecheck": "tsc"
